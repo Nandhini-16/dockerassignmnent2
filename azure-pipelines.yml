@@ -1,7 +1,14 @@
 #demo java application
 
 trigger:
-- master
+  branches:
+    include:
+      - master
+
+pr:
+  branches:
+    include:
+      - master
 
 pool:
   vmImage: ubuntu-latest
@@ -37,3 +44,22 @@ stages:
               sonarQubeRunAnalysis: false
               checkStyleRunAnalysis: true
               pmdRunAnalysis: true
+  - stage: "BuildArtificat"
+    displayName: "Build Artificat"
+    jobs:
+      - job: "BuildArtificat"
+        displayName: "Building Artificat"
+        steps:
+        - task: Maven@4
+          inputs:
+            mavenPomFile: 'pom.xml'
+            goals: 'clean package'
+            publishJUnitResults: true
+            testResultsFiles: '**/surefire-reports/TEST-*.xml'
+            javaHomeOption: 'JDKVersion'
+            mavenVersionOption: 'Default'
+            mavenAuthenticateFeed: false
+            effectivePomSkip: false
+            sonarQubeRunAnalysis: false
+            checkStyleRunAnalysis: true
+            pmdRunAnalysis: true
