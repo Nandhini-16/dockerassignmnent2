@@ -22,7 +22,7 @@ stages:
       - job: "Junit"
         displayName: "Running unit test"
         steps:
-          - script: "Running the java application unit test"
+          - script: echo "Running the java application unit test"
           - task: Maven@4
             inputs:
               mavenPomFile: 'pom.xml'
